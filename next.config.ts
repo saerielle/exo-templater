@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
       }
     }
     return config
+  },
+  output: 'export',
+  basePath: '/exo-templater',
+  images: {
+    unoptimized: true
   }
 }
 
