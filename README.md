@@ -10,9 +10,10 @@ You do not need to have artwork - export generates placeholder PNG files when no
 
 ## Getting Started
 
-1. Click "New Project" to start (or you can import [Demo mod](https://github.com/saerielle/ExoLoader-Demo-Mod) to see what's what)
-2. Bootstrap your content (or just poke around and see what's what lol)
-3. Export and install (export generates a template of README for mods with installation instructions)
+1. Go to [ExoLoader Mod Templater](https://saerielle.github.io/exo-templater/)
+2. Click "New Project" to start (or you can import [Demo mod](https://github.com/saerielle/ExoLoader-Demo-Mod) to see what's what)
+3. Bootstrap your content (or just poke around and see what's what lol)
+4. Export and install (export generates a template of README for mods with installation instructions)
 
 ## Notes
 
