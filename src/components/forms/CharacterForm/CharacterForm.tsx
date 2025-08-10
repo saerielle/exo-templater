@@ -1,3 +1,5 @@
+'use client'
+
 import { set as lodashSet, orderBy } from 'lodash-es'
 import { Save } from 'lucide-react'
 

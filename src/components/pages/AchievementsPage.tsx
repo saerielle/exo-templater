@@ -1,3 +1,5 @@
+'use client'
+
 import { Image, Plus } from 'lucide-react'
 
 import React, { useState } from 'react'

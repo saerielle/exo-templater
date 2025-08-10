@@ -1,3 +1,5 @@
+'use client'
+
 import { sortBy } from 'lodash-es'
 import { Plus, Star } from 'lucide-react'
 

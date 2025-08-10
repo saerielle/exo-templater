@@ -1,3 +1,5 @@
+'use client'
+
 import { set } from 'lodash-es'
 import { Save } from 'lucide-react'
 

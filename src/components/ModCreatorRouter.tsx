@@ -1,3 +1,5 @@
+'use client'
+
 import {
   BookOpen,
   Briefcase,
@@ -17,7 +19,7 @@ import {
 
 import React, { useEffect, useState } from 'react'
 
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import { useErrorHandler, useLoadingState, useProject, useProjects } from '../hooks/useDexie'
 import ImportProjectForm from './forms/ImportProjectForm'
@@ -52,12 +54,10 @@ const ModCreatorRouter: React.FC = () => {
   const { isLoading } = useLoadingState()
   const { getError, setError, clearError } = useErrorHandler()
   const router = useRouter()
-  const params = useParams()
+  const searchParams = useSearchParams()
 
-  let currentProjectId = params?.projectId || null
-  let currentPage = params?.page || 'dashboard'
-  if (Array.isArray(currentProjectId)) currentProjectId = currentProjectId[0]
-  if (Array.isArray(currentPage)) currentPage = currentPage[0]
+  let currentProjectId = searchParams.get('projectId')
+  let currentPage = searchParams.get('content') || 'dashboard'
 
   const [showNewProjectModal, setShowNewProjectModal] = useState(false)
   const [showImportProjectModal, setShowImportProjectModal] = useState(false)
@@ -67,17 +67,26 @@ const ModCreatorRouter: React.FC = () => {
 
   const project = useProject(currentProjectId)
 
+  const updateUrlParams = (projectId: string | null, content?: string) => {
+    const params = new URLSearchParams()
+    if (projectId) params.set('projectId', projectId)
+    if (content) params.set('content', content)
+    const queryString = params.toString()
+    const newUrl = queryString ? `/mod?${queryString}` : '/mod'
+    router.push(newUrl)
+  }
+
   useEffect(() => {
     if (projects.length > 0 && !currentProjectId) {
-      router.replace(`/mod/${projects[0].id}/dashboard`)
+      updateUrlParams(projects[0].id, 'dashboard')
     } else if (
       projects.length > 0 &&
       currentProjectId &&
       !projects.find((p) => p.id === currentProjectId)
     ) {
-      router.replace(`/mod/${projects[0].id}/dashboard`)
+      updateUrlParams(projects[0].id, 'dashboard')
     }
-  }, [projects, currentProjectId, router])
+  }, [projects, currentProjectId])
 
   const createNewProject = async (formData: {
     name: string
@@ -90,7 +99,7 @@ const ModCreatorRouter: React.FC = () => {
         description: formData.description,
         folderName: formData.folderName
       })
-      router.replace(`/mod/${projectId}/dashboard`)
+      updateUrlParams(projectId, 'dashboard')
       clearError('project-creation')
     } catch (error) {
       setError('project-creation', 'Failed to create project')
@@ -158,7 +167,7 @@ const ModCreatorRouter: React.FC = () => {
         return (
           <DashboardPage
             {...pageProps}
-            setCurrentPage={(page) => router.push(`/mod/${currentProjectId}/${page}`)}
+            setCurrentPage={(page) => updateUrlParams(currentProjectId, page)}
           />
         )
       case 'characters':
@@ -183,7 +192,7 @@ const ModCreatorRouter: React.FC = () => {
         return (
           <DashboardPage
             {...pageProps}
-            setCurrentPage={(page) => router.push(`/mod/${currentProjectId}/${page}`)}
+            setCurrentPage={(page) => updateUrlParams(currentProjectId, page)}
           />
         )
     }
@@ -253,7 +262,7 @@ const ModCreatorRouter: React.FC = () => {
               {navigation.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
-                  onClick={() => router.push(`/mod/${currentProjectId}/${id}`)}
+                  onClick={() => updateUrlParams(currentProjectId, id)}
                   className={`w-full flex items-center px-3 py-2 text-left rounded-lg transition-colors ${
                     currentPage === id
                       ? 'bg-blue-100 text-blue-700 font-medium'
@@ -273,7 +282,7 @@ const ModCreatorRouter: React.FC = () => {
               {projects.map((proj) => (
                 <button
                   key={proj.id}
-                  onClick={() => router.push(`/mod/${proj.id}/dashboard`)}
+                  onClick={() => updateUrlParams(proj.id, 'dashboard')}
                   className={`w-full text-left p-2 rounded text-sm transition-colors ${
                     currentProjectId === proj.id
                       ? 'bg-blue-100 text-blue-700'
@@ -301,7 +310,7 @@ const ModCreatorRouter: React.FC = () => {
         isOpen={showImportProjectModal}
         onClose={() => setShowImportProjectModal(false)}
         onImportComplete={(projectId) => {
-          router.replace(`/mod/${projectId}/dashboard`)
+          updateUrlParams(projectId, 'dashboard')
         }}
       />
       <ProjectForm
@@ -359,9 +368,9 @@ const ModCreatorRouter: React.FC = () => {
                   setIsDeleting(false)
                   if (projects.length > 1) {
                     const next = projects.find((p) => p.id !== currentProjectId)
-                    if (next) router.replace(`/mod/${next.id}/dashboard`)
+                    if (next) updateUrlParams(next.id, 'dashboard')
                   } else {
-                    router.replace(`/`)
+                    router.replace('/')
                   }
                 }}
                 disabled={isDeleting}

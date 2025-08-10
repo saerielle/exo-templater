@@ -1,3 +1,5 @@
+'use client'
+
 import { ChevronDown, ChevronRight, Edit, FileText, GripVertical, Plus, Trash2 } from 'lucide-react'
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'

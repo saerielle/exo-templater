@@ -1,3 +1,5 @@
+'use client'
+
 import {
   BookOpen,
   Briefcase,
@@ -11,8 +13,6 @@ import {
 } from 'lucide-react'
 
 import React from 'react'
-
-import Link from 'next/link'
 
 import { useStories, useStoryPatches } from '../../hooks/useDexie'
 import {
@@ -72,10 +72,10 @@ const DashboardPage: React.FC<PageProps> = ({ projectId, project, setCurrentPage
           { key: 'storypatches', label: 'Story Patches', icon: Scissors, color: 'teal' },
           { key: 'achievements', label: 'Achievements', icon: Trophy, color: 'yellow' }
         ].map(({ key, label, icon: Icon, color }) => (
-          <Link
+          <button
             key={key}
-            href={`/mod/${projectId}/${key}`}
-            className={`block transition-shadow focus:outline-none focus:ring-2 focus:ring-${color}-400 ${bgColorMap[color]} ${borderColorMap[color]} border p-4 rounded-lg hover:shadow-lg hover:bg-opacity-90 cursor-pointer`}
+            onClick={() => setCurrentPage(key)}
+            className={`block transition-shadow focus:outline-none focus:ring-2 focus:ring-${color}-400 ${bgColorMap[color]} ${borderColorMap[color]} border p-4 rounded-lg hover:shadow-lg hover:bg-opacity-90 cursor-pointer w-full text-left`}
           >
             <div className="flex items-center justify-between mb-2">
               <Icon className={iconColorMap[color]} size={20} />
@@ -84,7 +84,7 @@ const DashboardPage: React.FC<PageProps> = ({ projectId, project, setCurrentPage
               </span>
             </div>
             <p className={`text-sm font-medium ${labelTextColorMap[color]}`}>{label}</p>
-          </Link>
+          </button>
         ))}
       </div>
 

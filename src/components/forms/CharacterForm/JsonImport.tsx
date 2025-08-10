@@ -163,13 +163,7 @@ const convertJsonToCharacter = (jsonData: any, projectId: string): Character => 
                 ]
               : [0, 0]
         }
-      : undefined,
-    templateCards: false,
-    templateCardName: '',
-    templateCardSuit: CardSuit.None,
-    templateAchievement: false,
-    templateStories: false,
-    templateStorySkill: SkillId.Empathy
+      : undefined
   }
 
   return character

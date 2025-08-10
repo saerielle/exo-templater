@@ -1,3 +1,5 @@
+'use client'
+
 import { sortBy } from 'lodash-es'
 import { CreditCard, Plus, Users } from 'lucide-react'
 

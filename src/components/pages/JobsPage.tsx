@@ -1,3 +1,5 @@
+'use client'
+
 import { Briefcase, Plus } from 'lucide-react'
 
 import React, { useMemo, useState } from 'react'

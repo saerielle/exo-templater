@@ -15,7 +15,8 @@ const nextConfig: NextConfig = {
   basePath: '/exo-templater',
   images: {
     unoptimized: true
-  }
+  },
+  trailingSlash: true
 }
 
 export default nextConfig
