@@ -373,14 +373,13 @@ async function importStories(projectId: string, files: File[]): Promise<void> {
 
 async function importStoryPatches(projectId: string, files: File[]): Promise<void> {
   const patchFiles = files.filter(f =>
-    f.webkitRelativePath?.includes('/StoryPatches/') &&
-    f.name.endsWith('.exo')
+    f.webkitRelativePath?.includes('/StoryPatches/')
   )
 
   for (const file of patchFiles) {
     try {
       const content = await file.text()
-      const patches = parseStoryPatchFile(content, file.name.replace(/\.exo$/, ''))
+      const patches = parseStoryPatchFile(content, file.name.replace(/\.exo$/, '').replace(/\.txt$/, ''))
 
       const patchData: StoryPatch[] = patches.map((patch, index) => {
         const basePatch = {
